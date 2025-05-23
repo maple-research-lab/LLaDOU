@@ -28,8 +28,6 @@ class LLaDOUModelLM(LLaDAModelLM):
         else:
             self.norm_out_2 = nn.LayerNorm(4096, eps=1e-4)
         self.mask_linear = nn.Linear(4096, 1)
-        if self.config.use_positional_bias:
-            self.positional_bias = nn.Embedding(256, 1)
         setattr(self.mask_linear, "is_last_linear", True)
 
         if self.config.use_mask_embeddings:
@@ -66,8 +64,8 @@ class LLaDOUModelLM(LLaDAModelLM):
             return super().forward(*args, **kwargs)
 
 @torch.no_grad()
-def sample(model, batch, tokenizer, device, temperature=1., steps=128,
-    gen_length=128, block_length=None, mask_id=126336, eos_id=126081, inference=False):
+def sample(model, batch, tokenizer, device, temperature=1., steps=256,
+    gen_length=256, block_length=8, mask_id=126336, eos_id=126081, inference=False):
     '''
     Args:
         model: Mask predictor.
