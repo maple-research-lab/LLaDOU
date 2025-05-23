@@ -69,12 +69,16 @@ def sample(model, batch, tokenizer, device, temperature=1., steps=256,
     '''
     Args:
         model: Mask predictor.
-        prompt: A tensor of shape (b, l).
+        batch (or prompt): A dict that is collated, or a simple string as a propmt.
         steps: Sampling steps, less than or equal to gen_length.
         gen_length: Generated answer length.
         block_length: Block length, less than or equal to gen_length. If less than gen_length, it means using semi_autoregressive remasking.
         mask_id: The toke id of [MASK] is 126336.
     '''
+    if isinstance(batch, str):
+        batch = {
+            "problems": [batch],
+        }
     if block_length is None:
         block_length = gen_length
     assert gen_length % block_length == 0
@@ -134,7 +138,6 @@ def sample(model, batch, tokenizer, device, temperature=1., steps=256,
         remask_logits = remask_logits.masked_fill(~current_block, -torch.inf)
         remask_prob = remask_logits.softmax(-1)
 
-
         if inference:
             samples = remask_prob.topk(gen_length // steps).indices
         else:
@@ -152,9 +155,12 @@ def sample(model, batch, tokenizer, device, temperature=1., steps=256,
         trajectory_outputs.append(x0.clone())
         x = x0
 
+    responses = tokenizer.batch_decode(x[:, prompt_len:], skip_special_tokens=True)
+
     output_dict = {
         'trajectory_inputs': trajectory_inputs,
         'trajectory_outputs': trajectory_outputs,
+        'responses': responses,
     }
     
     return output_dict

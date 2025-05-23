@@ -30,13 +30,13 @@ model = LLaDOUModelLM.from_pretrained(
 )
 
 problem = "What is the answer of 1+1?"
-inputs = sample(
+outputs = sample(
     model,
-    batch,
+    problem,
     tokenizer,
-    device=device,
+    device="cuda",
 )
-response = inputs["responses"][0]
+response = outputs["responses"][0]
 print(response)
 ```
 
