@@ -28,12 +28,29 @@ model = LLaDOUModelLM.from_pretrained(
     torch_dtype=torch.bfloat16,
     device_map="cuda",
 )
+
+problem = "What is the answer of 1+1?"
+inputs = sample(
+    model,
+    batch,
+    tokenizer,
+    device=device,
+)
+response = inputs["responses"][0]
+print(response)
 ```
 
 ### Evaluation
 
 Prepare datasets as following:
 ```
+├── datasets
+│   ├── gsm8k
+│   │   └── ...
+│   ├── MATH
+│   │   └── ...
+│   ├── mbpp.jsonl
+│   └── HumanEval.jsonl.gz
 ```
 
 - For evaluate on [GSM8K]() and [MATH](), please run [scripts/eval_math.sh](scripts/eval_math.sh).
