@@ -9,7 +9,15 @@
 
 </div>
 
-![Demo Generation GIF](assets/demo_generation.gif)
+We introduce the Diffusion Chain of Lateral Thought (DCoLT), a reasoning framework for diffusion language models.
+
+DCoLT treats each intermediate step in the reverse diffusion process as a latent "thinking" action and optimizes the entire reasoning trajectory to maximize the reward on the correctness of the final answer with outcome-based Reinforcement Learning (RL). Unlike traditional Chain-of-Thought (CoT) methods that follow a causal, linear thinking process, DCoLT allows bidirectional, non-linear reasoning with no strict rule on grammatical correctness amid its intermediate steps of thought.
+
+![Demonstration of DCoLT](assets/dcolt.png)
+
+## News
+
+- ```[May 2025]``` Released [LLaDOU v0 Math](https://huggingface.co/maple-research-lab/LLaDOU-v0-Math) and [LLaDOU v0 Code](https://huggingface.co/maple-research-lab/LLaDOU-v0-Code) models, their evaluation code and [technique report](https://arxiv.org/abs/2505.10446).
 
 ## Getting Started
 
@@ -20,10 +28,9 @@ import torch
 from transformers import AutoTokenizer
 from networks.lladou_v0 import LLaDOUModelLM, sample
 
-tokenizer = AutoTokenizer.from_pretrained("models/LLaDOU-Math-8B")
-tokenizer.pad_token_id = 126081
+tokenizer = AutoTokenizer.from_pretrained("models/LLaDOU-v0-Math")
 model = LLaDOUModelLM.from_pretrained(
-    pretrained_model_name_or_path="models/LLaDOU-Math-8B",
+    pretrained_model_name_or_path="models/LLaDOU-v0-Math",
     trust_remote_code=True,
     torch_dtype=torch.bfloat16,
     device_map="cuda",
@@ -50,14 +57,16 @@ Prepare datasets as following:
 │   ├── MATH
 │   │   └── ...
 │   ├── mbpp.jsonl
+│   ├── mbpp_test.jsonl
 │   └── HumanEval.jsonl.gz
 ```
 
-- For evaluate on [GSM8K]() and [MATH](), please run [scripts/eval_math.sh](scripts/eval_math.sh).
-- For evaluate on [MBPP]() and [HumanEval](), please run [scripts/eval_code.sh](scripts/eval_code.sh).
+- For GSM8K and MATH evaluation, please run [scripts/eval_math.sh](scripts/eval_math.sh).
+- For MBPP and HumanEval evaluation, please run [scripts/eval_code.sh](scripts/eval_code.sh).
 
 <div align="center"><strong>Evaluation Metrics</strong></div>
-![Evaluation Metrics](assets/metrics.png)
+
+![Evaluation Metrics](assets/metrics_v0.png)
 
 ## Citation
 If this repository helps with your work, please consider giving a star ⭐ and citation 🦖:
