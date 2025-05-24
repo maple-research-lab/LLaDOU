@@ -9,9 +9,12 @@
 
 </div>
 
-We introduce the Diffusion Chain of Lateral Thought (DCoLT), a reasoning framework for diffusion language models.
+We introduce the **L**arge **La**nguage **D**iffusion with **O**rdered **U**nmasking (**LLaDOU**), which is trained by reinforcing a new reasoning paradigm named the **D**iffusion **C**hain **o**f **L**ateral **T**hought (**DCoLT**) for diffusion language models.
 
-DCoLT treats each intermediate step in the reverse diffusion process as a latent "thinking" action and optimizes the entire reasoning trajectory to maximize the reward on the correctness of the final answer with outcome-based Reinforcement Learning (RL). Unlike traditional Chain-of-Thought (CoT) methods that follow a causal, linear thinking process, DCoLT allows bidirectional, non-linear reasoning with no strict rule on grammatical correctness amid its intermediate steps of thought.
+Compared to standard CoT, DCoLT is distinguished with several notable features:
+- **Bidirectional Reasoning**: Allowing global refinement throughout generations with bidirectional self-attention masks.
+- **Format-Free Reasoning**: No strict rule on grammatical correctness amid its intermediate steps of thought.
+- **Nonlinear Generation**: Generating tokens at various positions in different steps.
 
 ![Demonstration of DCoLT](assets/dcolt.png)
 
@@ -69,7 +72,7 @@ Prepare datasets as following:
 ![Evaluation Metrics](assets/metrics_v0.png)
 
 ## Citation
-If this repository helps with your work, please consider giving a star ⭐ and citation 🦖:
+If this repository helps with your work, please consider giving a star and citation:
 ```
 @article{huang2025reinforcing,
   title={Reinforcing the Diffusion Chain of Lateral Thought with Diffusion Language Models},
