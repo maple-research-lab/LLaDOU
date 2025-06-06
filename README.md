@@ -20,6 +20,7 @@ Compared to standard CoT, DCoLT is distinguished with several notable features:
 
 ## News
 
+- ```[June 2025]``` [Training code](https://github.com/maple-research-lab/LLaDOU?tab=readme-ov-file#training) is provided!
 - ```[May 2025]``` Released [LLaDOU v0 Math](https://huggingface.co/maple-research-lab/LLaDOU-v0-Math) and [LLaDOU v0 Code](https://huggingface.co/maple-research-lab/LLaDOU-v0-Code) models, their evaluation code and [technique report](https://arxiv.org/abs/2505.10446).
 
 ## Getting Started
@@ -48,6 +49,13 @@ outputs = sample(
 )
 response = outputs["responses"][0]
 print(response)
+```
+
+### Training
+We provide an example to train LLaDOU on GSM8K dataset, feel free to change the configuration file!
+
+```bash
+accelerate launch --num_processes 8 --config_file configs/accelerate/fsdp.yaml train.py --config configs/gsm8k_64step_example.yaml
 ```
 
 ### Evaluation
@@ -81,5 +89,3 @@ If this repository helps with your work, please consider giving a star and citat
   year={2025}
 }
 ```
-
-

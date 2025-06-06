@@ -1,0 +1,57 @@
+desc: GSM8K-64step-example
+
+network_kwargs: 
+    class_name: networks.lladou_v0.LLaDOUModelLM.from_pretrained
+    pretrained_model_name_or_path: models/LLaDA-8B-Instruct/
+    trust_remote_code: true
+    torch_dtype: bfloat16
+
+tokenizer_kwargs:
+    class_name: transformers.AutoTokenizer.from_pretrained
+    pretrained_model_name_or_path: models/LLaDA-8B-Instruct/
+
+infer_kwargs:
+    func_name: networks.lladou_v0.sample
+    num_generations: 8
+    repeat_times: 2
+    steps: 64
+    gen_length: 256
+    block_length: 256
+
+data_loader_kwargs:
+    class_name: dataloaders.math.load_gsm8k_dataset_and_reward
+    local_path: datasets/gsm8k
+    batch_size: 1
+    num_workers: 4
+
+loss_kwargs:
+    func_name: networks.lladou_v0.logprob_loss
+    eps: 0.2
+    beta: 0.0
+
+optimizer_kwargs:
+    class_name: torch.optim.AdamW
+    lr: 5.0e-6
+    betas: [0.9, 0.999]
+    eps: 1.0e-8
+    weight_decay: 0.00
+
+lr_scheduler_kwargs:
+    class_name: training.utils.lr_scheduler.warmup
+    t_warmup: 20
+
+# other training args
+training_args:
+    func_name: training.training_loop_fsdp.training_loop
+    run_dir: runs/
+    total_steps: 500
+    loss_scaling: 1.
+    grad_accumulation: 4
+    max_grad_norm: 1
+    seed: 113
+    step_per_tick: 1
+    snapshot_ticks: 25
+    state_dump_ticks: 500
+    precision: bf16
+    val_ticks: 1
+    skip_spike_grad: 1.0e+10
