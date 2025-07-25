@@ -20,7 +20,7 @@ Compared to standard CoT, DCoLT is distinguished with several notable features:
 
 ## News
 
-- ```[June 2025]``` [Training code](https://github.com/maple-research-lab/LLaDOU?tab=readme-ov-file#training) is provided!
+- ```[July 2025]``` [Training code](https://github.com/maple-research-lab/LLaDOU?tab=readme-ov-file#training) is provided!
 - ```[May 2025]``` Released [LLaDOU v0 Math](https://huggingface.co/maple-research-lab/LLaDOU-v0-Math) and [LLaDOU v0 Code](https://huggingface.co/maple-research-lab/LLaDOU-v0-Code) models, their evaluation code and [technique report](https://arxiv.org/abs/2505.10446).
 
 ## Getting Started

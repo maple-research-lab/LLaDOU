@@ -37,8 +37,7 @@ optimizer_kwargs:
     weight_decay: 0.00
 
 lr_scheduler_kwargs:
-    class_name: training.utils.lr_scheduler.warmup
-    t_warmup: 20
+    class_name: training.utils.lr_scheduler.constantlr
 
 # other training args
 training_args:
